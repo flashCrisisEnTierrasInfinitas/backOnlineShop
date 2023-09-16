@@ -10,13 +10,13 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-  
+    //!LISTA TODO LOS PRODUCTOS
     public function index()
     {
         $product = Product::all();
         return $product;
     }
-
+    //? INSERTA LOS PRODUCTOS
     public function store(Request $request)
     {
         $product = new Product();
@@ -28,16 +28,17 @@ class ProductController extends Controller
 
         $product->save();
     }
-
+    //* LISTA UNO POR UNO
     public function show($id)
     {
-        $product = Product::fid($id);
+        $product = Product::find($id);
         return $product;
     }
-
+    //TODO: ACTUALIZA LOS PRODUCTOS
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($request->$id);
+
         $product->nombrePro = $request->nombrePro;
         $product->codigoPro = $request->codigoPro;
         $product->descripPro = $request->descripPro;
@@ -46,7 +47,7 @@ class ProductController extends Controller
 
         $product->save();
     }
-
+    //! ELIMINA LOS PRODUCTOS
     public function destroy($id)
     {
         $product = Product::destroy($id);
