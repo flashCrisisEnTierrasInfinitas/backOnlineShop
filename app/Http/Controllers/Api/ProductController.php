@@ -37,7 +37,7 @@ class ProductController extends Controller
     //TODO: ACTUALIZA LOS PRODUCTOS
     public function update(Request $request, $id)
     {
-        $product = Product::findOrFail($request->id);
+        $product = Product::find($id);
 
         $product->nombrePro = $request->nombrePro;
         $product->codigoPro = $request->codigoPro;
@@ -46,6 +46,7 @@ class ProductController extends Controller
         $product->stockPro = $request->stockPro;
 
         $product->save();
+        return $product;
     }
     //! ELIMINA LOS PRODUCTOS
     public function destroy($id)
