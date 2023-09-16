@@ -22,6 +22,7 @@ class ProductController extends Controller
         $product = new Product();
         $product->nombrePro = $request->nombrePro;
         $product->codigoPro = $request->codigoPro;
+        $product->tipoPro = $request->tipoPro;
         $product->descripPro = $request->descripPro;
         $product->precioPro = $request->precioPro;
         $product->stockPro = $request->stockPro;

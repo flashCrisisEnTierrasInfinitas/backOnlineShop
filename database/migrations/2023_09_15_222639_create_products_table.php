@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('descripPro');
             $table->double('precioPro');
             $table->integer('stockPro');
+            $table->integer('tipoPro');
             $table->timestamps();
         });
     }
