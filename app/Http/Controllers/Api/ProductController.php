@@ -14,7 +14,7 @@ class ProductController extends Controller
     public function index()
     {
         $product = Product::all();
-        return $product;
+        return response()->json($product);
     }
     //? INSERTA LOS PRODUCTOS
     public function store(Request $request)
@@ -28,6 +28,8 @@ class ProductController extends Controller
         $product->stockPro = $request->stockPro;
 
         $product->save();
+
+        return response()->json(['message' => 'success']);
     }
     //* LISTA UNO POR UNO
     public function show($id)
@@ -47,12 +49,12 @@ class ProductController extends Controller
         $product->stockPro = $request->stockPro;
 
         $product->save();
-        return $product;
+        return response()->json(['message' => 'Update','data'=>$product]);
     }
     //! ELIMINA LOS PRODUCTOS
     public function destroy($id)
     {
         $product = Product::destroy($id);
-        return $product;
+        return response()->json(['message' => 'Delete','data' => $product]);
     }
 }
