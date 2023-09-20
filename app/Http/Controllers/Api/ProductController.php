@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 //! CONTROLADOR DE LOS PRODUCTOS
 
 class ProductController extends Controller
 {
+
     //!LISTA TODO LOS PRODUCTOS
     public function index()
     {
@@ -20,12 +22,14 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $product = new Product();
+
+        $product->id_category = $request->id_category;
         $product->nombrePro = $request->nombrePro;
         $product->codigoPro = $request->codigoPro;
-        $product->tipoPro = $request->tipoPro;
         $product->descripPro = $request->descripPro;
         $product->precioPro = $request->precioPro;
         $product->stockPro = $request->stockPro;
+        $product->img = $request->featured;
 
         $product->save();
 
@@ -41,20 +45,19 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
-
+        $product->id_category = $request->id_category;
         $product->nombrePro = $request->nombrePro;
         $product->codigoPro = $request->codigoPro;
         $product->descripPro = $request->descripPro;
         $product->precioPro = $request->precioPro;
         $product->stockPro = $request->stockPro;
-
         $product->save();
-        return response()->json(['message' => 'Update','data'=>$product]);
+        return response()->json(['message' => 'Update', 'data' => $product]);
     }
     //! ELIMINA LOS PRODUCTOS
     public function destroy($id)
     {
         $product = Product::destroy($id);
-        return response()->json(['message' => 'Delete','data' => $product]);
+        return response()->json(['message' => 'Delete', 'data' => $product]);
     }
 }
