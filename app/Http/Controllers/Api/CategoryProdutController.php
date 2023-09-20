@@ -15,7 +15,15 @@ class CategoryProdutController extends Controller
     }
     public function store(Request $request)
     {
-        
+        $category = new categoryProduct();
+
+        $category->name=$request->name;
+        $category->state=$request->state;
+        $category->color=$request->color;
+
+        $category->save();
+
+        return response()->json(['message' => 'success']);
     }
 
     /**
