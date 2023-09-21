@@ -15,8 +15,12 @@ class ProductController extends Controller
     //!LISTA TODO LOS PRODUCTOS
     public function index()
     {
-        $product = Product::all();
-        return response()->json($product);
+        try {
+            $products = Product::all();
+            return response()->json($products);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
     //? INSERTA LOS PRODUCTOS
     public function store(Request $request)

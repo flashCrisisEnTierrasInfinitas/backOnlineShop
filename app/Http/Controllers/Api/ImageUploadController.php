@@ -21,15 +21,17 @@ class ImageUploadController extends Controller
         // Obtiene el nombre enviado desde React
         $nombre = $request->input('nombre'); // Asegúrate de que 'nombre' coincida con el nombre que estás enviando desde React
 
+        //RUTA DONDE SE ALMACENA LAS IMG
+        $routes = $request->input('route');
         // Genera un nombre único para la imagen (puedes personalizar esto según tus necesidades)
         $nombreImagen = time() . '_' . $nombre . '.' . $image->getClientOriginalExtension();
 
         // Guarda la imagen en una ubicación específica (por ejemplo, storage/app/public)
-        $path = $image->storeAs('public/img', $nombreImagen);
+        $path  = $image->move(public_path('img/' . $routes), $nombreImagen);
 
         // Devuelve la URL pública de la imagen
-        $url = asset('storage/img/' . $nombreImagen);
+        $url = asset('img/' . $routes . '/' . $nombreImagen);
 
-        return response()->json(['url' => $url]);
+        return response()->json(['url' => $url, 'data' => $path]);
     }
 }
