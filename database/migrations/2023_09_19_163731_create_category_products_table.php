@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('state');
             $table->string('color');
+            $table->string('img');
             $table->timestamps();
         });
     }

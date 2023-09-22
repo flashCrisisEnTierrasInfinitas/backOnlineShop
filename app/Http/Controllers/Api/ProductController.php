@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -23,19 +24,21 @@ class ProductController extends Controller
         }
     }
     //? INSERTA LOS PRODUCTOS
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $product = new Product();
+        $products = new Product($request->validated());
 
-        $product->id_category = $request->id_category;
-        $product->nombrePro = $request->nombrePro;
-        $product->codigoPro = $request->codigoPro;
-        $product->descripPro = $request->descripPro;
-        $product->precioPro = $request->precioPro;
-        $product->stockPro = $request->stockPro;
-        $product->img = $request->featured;
+        $image = $request->file('img');
+        if ($image) {
 
-        $product->save();
+            $nombreImagen = time() . '_' . $request->name . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('img/product'), $nombreImagen);
+
+            $url = asset('img/product/' . $nombreImagen);
+            $products->img = $url;
+        }
+
+        $products->save();
 
         return response()->json(['message' => 'success']);
     }

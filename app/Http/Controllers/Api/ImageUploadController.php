@@ -14,7 +14,6 @@ class ImageUploadController extends Controller
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Ajusta las reglas según tus necesidades
         ]);
-
         // Obtiene el archivo de imagen
         $image = $request->file('image');
 
