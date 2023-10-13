@@ -77,13 +77,16 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
+        // Crea la cookie con el token
+        $cookie = cookie('jwt', $token, 60);
+
+        // Devuelve una respuesta JSON que incluye el token y la cookie
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
+        ])->withCookie($cookie);
     }
-
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
