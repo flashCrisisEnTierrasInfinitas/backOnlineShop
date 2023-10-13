@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CategoryProdutController;
 use App\Http\Controllers\Api\ImageUploadController;
+use App\Http\Controllers\Api\MyDalys;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\UsuarioController;
 use Illuminate\Http\Request;
@@ -57,11 +58,14 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::controller(CategoryProdutController::class)->group(function () {
-        Route::get('/categoryProd', 'index');
         Route::post('/categoryProd', 'store');
-        Route::get('/categoryProd/{id}', 'show');
         Route::put('/categoryProd/{id}', 'update');
         Route::delete('/categoryProd/{id}', 'destroy');
+    });
+    
+    Route::controller(MyDalys::class)->group(function () {
+        Route::get('/mydaly', 'index');
+        Route::post('/mydaly', 'store');
     });
 });
 

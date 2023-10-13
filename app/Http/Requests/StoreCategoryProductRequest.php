@@ -16,7 +16,7 @@ class StoreCategoryProductRequest extends FormRequest
             'name'=>'required',
             'state'=>'required',
             'color'=>'required',
-            'img'=>'nullable|mimes:png,jpeg,jpg,jfif,webp',
+            'img'=>'nullable|mimes:jpeg,png,jpg,gif',
         ];
     }
 }

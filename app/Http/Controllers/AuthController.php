@@ -11,21 +11,12 @@ use Illuminate\Support\Facades\Cookie;
 
 class AuthController extends Controller
 {
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
-    /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function login()
     {
         $credentials = request(['email', 'password']);
@@ -34,61 +25,41 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->respondWithToken($token);
+        // Obtiene el usuario autenticado
+        $user = auth()->user();
+
+        // Obtiene el rol del usuario
+        $role = $user->role;
+
+
+        $cookie = cookie('jwt', $token, 60);
+
+        // Devuelve una respuesta JSON que incluye el token y la cookie
+        return response()->json([
+            'access_token' => $token,
+            'role' => $role,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ])->withCookie($cookie);
     }
 
-    /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function me()
     {
         return response()->json(auth()->user());
     }
 
-    /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function logout()
     {
         $cooki = Cookie::forget('jwt');
         return response()->json(['message' => 'Successfully logged out'])->withCookie($cooki);
     }
 
-    /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-
-    /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function respondWithToken($token)
-    {
-        // Crea la cookie con el token
-        $cookie = cookie('jwt', $token, 60);
-
-        // Devuelve una respuesta JSON que incluye el token y la cookie
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ])->withCookie($cookie);
-    }
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required',
-            'password' => 'required',
+            'password' => 'required|min:8',
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);

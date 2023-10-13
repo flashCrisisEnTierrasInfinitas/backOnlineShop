@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+
 
 //! CONTROLADOR DE LOS PRODUCTOS
 
@@ -26,7 +26,7 @@ class ProductController extends Controller
     //? INSERTA LOS PRODUCTOS
     public function store(StoreProductRequest $request)
     {
-        $products = new Product($request->validated());
+        $products = new Product($request->validated()); 
 
         $image = $request->file('img');
         if ($image) {
