@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\ImageUploadController;
 use App\Http\Controllers\Api\MyDalys;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\UsuarioController;
+use App\Http\Controllers\Api\VentasController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -66,6 +67,10 @@ Route::middleware('auth:api')->group(function () {
     Route::controller(MyDalys::class)->group(function () {
         Route::get('/mydaly', 'index');
         Route::post('/mydaly', 'store');
+    });
+    Route::controller(VentasController::class)->group(function () {
+        Route::get('/ventas', 'index');
+        Route::post('/ventas', 'store');
     });
 });
 
