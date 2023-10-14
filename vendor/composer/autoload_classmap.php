@@ -31,6 +31,8 @@ return array(
     'App\\Models\\MyDaly' => $baseDir . '/app/Models/MyDaly.php',
     'App\\Models\\Product' => $baseDir . '/app/Models/Product.php',
     'App\\Models\\Usuario' => $baseDir . '/app/Models/Usuario.php',
+    'App\\Models\\VentaProductos' => $baseDir . '/app/Models/VentaProductos.php',
+    'App\\Models\\Ventas' => $baseDir . '/app/Models/Ventas.php',
     'App\\Models\\categoryProduct' => $baseDir . '/app/Models/categoryProduct.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',

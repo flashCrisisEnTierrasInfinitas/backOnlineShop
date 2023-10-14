@@ -572,6 +572,8 @@ class ComposerStaticInit05a7e351ff94d3122f77837607a5faba
         'App\\Models\\MyDaly' => __DIR__ . '/../..' . '/app/Models/MyDaly.php',
         'App\\Models\\Product' => __DIR__ . '/../..' . '/app/Models/Product.php',
         'App\\Models\\Usuario' => __DIR__ . '/../..' . '/app/Models/Usuario.php',
+        'App\\Models\\VentaProductos' => __DIR__ . '/../..' . '/app/Models/VentaProductos.php',
+        'App\\Models\\Ventas' => __DIR__ . '/../..' . '/app/Models/Ventas.php',
         'App\\Models\\categoryProduct' => __DIR__ . '/../..' . '/app/Models/categoryProduct.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
