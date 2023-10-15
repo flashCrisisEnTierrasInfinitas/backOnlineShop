@@ -78,3 +78,6 @@ Route::get('/product', 'App\Http\Controllers\Api\ProductController@index');
 Route::get('/product/{id}', 'App\Http\Controllers\Api\ProductController@show');
 Route::get('/categoryProd', 'App\Http\Controllers\Api\CategoryProdutController@index');
 Route::get('/categoryProd/{id}', 'App\Http\Controllers\Api\CategoryProdutController@show');
+//TOCA PROTEGERLAS
+Route::get('/ventasProductos/{id}', 'App\Http\Controllers\Api\VentaProductosController@index');
+Route::put('/ventas/{id}', 'App\Http\Controllers\Api\VentasController@update');

@@ -50,8 +50,8 @@ class VentasController extends Controller
             }
             $ventas->Total_Pago = $total_venta;
             $ventas->save();
-           
-           DB::commit();
+
+            DB::commit();
             return response()->json(['message' => 'success']);
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -67,7 +67,14 @@ class VentasController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $ventas = ModelVentas::find($id);
+            $ventas->status_venta = $request->status_venta;
+            $ventas->save();
+            return response()->json(['message' => 'Update', 'data' => $ventas]);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 
 
