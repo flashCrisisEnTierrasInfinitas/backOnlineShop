@@ -14,9 +14,9 @@ class VentaProductosController extends Controller
     {
         try {
             $data = DB::table('products')
-                ->select('id','nombrePro','codigoPro','precio','cantidad','img')
+                ->select('id', 'nombrePro', 'codigoPro', 'precio', 'cantidad', 'img')
                 ->join('venta_productos', 'products.id', '=', 'venta_productos.producto_id')
-                ->where('venta_productos.venta_id','=',$id)
+                ->where('venta_productos.venta_id', '=', $id)
                 ->get();
             return response()->json($data);
         } catch (\Throwable $th) {
@@ -29,15 +29,19 @@ class VentaProductosController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show($user)
     {
-        //
+        try {
+            $data = DB::table('products')
+                ->select('products.id', 'nombrePro', 'codigoPro', 'precio', 'cantidad', 'products.img', 'ventas.created_at','Total_Pago')
+                ->join('venta_productos', 'products.id', '=', 'venta_productos.producto_id')
+                ->join('ventas', 'venta_productos.venta_id', '=', 'ventas.id')
+                ->where('ventas.user_compra', '=', $user)
+                ->get();
+            return response()->json($data);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 
     /**

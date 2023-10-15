@@ -58,13 +58,21 @@ class ProductController extends Controller
         $product->descripPro = $request->descripPro;
         $product->precioPro = $request->precioPro;
         $product->stockPro = $request->stockPro;
+        $product->status = $request->status;
         $product->save();
         return response()->json(['message' => 'Update', 'data' => $product]);
     }
     //! ELIMINA LOS PRODUCTOS
-    public function destroy($id)
+   
+    public function destroy(Request $request, $id)
     {
-        $product = Product::destroy($id);
-        return response()->json(['message' => 'Delete', 'data' => $product]);
+        try {
+            $product = Product::find($id);
+            $product->status = $request->status;
+            $product->save();
+            return response()->json(['message' => 'Update', 'data' => $product]);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 }

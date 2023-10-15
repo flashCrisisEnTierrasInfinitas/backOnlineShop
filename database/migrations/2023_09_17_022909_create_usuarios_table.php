@@ -21,6 +21,9 @@ return new class extends Migration
             $table->string('password');
             $table->integer('role');
             $table->integer('status');
+            $table->string('img');
+            $table->string('direccion');
+            $table->string('telefono');
             $table->timestamps();
         });
     }

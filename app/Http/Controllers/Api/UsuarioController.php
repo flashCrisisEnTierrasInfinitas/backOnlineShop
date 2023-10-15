@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUsuarioRequest;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
 
@@ -36,24 +37,37 @@ class UsuarioController extends Controller
         return response()->json($user);
     }
 
-    public function update(Request $request, $id)
+    public function update(StoreUsuarioRequest $request, $id)
     {
-        $user = Usuario::find($id);
-        $user->name = $request->name;
-        $user->last_name = $request->last_name;
-        $user->email = $request->email;
-        $user->password = $request->password;
-        $user->role = $request->role;
-        $user->status = $request->status;
-        // Guardar el usuario en la base de datos
-        $user->save();
+        $usuario = Usuario::find($id);
 
-        return response()->json(['message' => 'Update','data'=>$user]);
+        $image = $request->file('img');
+        if ($image) {
+
+            $nombreImagen = time() . '_' . $request->name . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('img/usuario'), $nombreImagen);
+
+            $url = asset('img/usuario/' . $nombreImagen);
+        } else {
+            $url = $usuario->img;
+        }
+
+        $usuario->update(
+            array_merge($request->validated(), ['img' => $url,'password' => bcrypt($request->password)])
+        );
+
+        return response()->json(['message' => 'Actually']);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $user = Usuario::destroy($id);
-        return response()->json(['message' => 'Delete','data' => $user]);
+        try {
+            $usuario = Usuario::find($id);
+            $usuario->status = $request->status;
+            $usuario->save();
+            return response()->json(['message' => 'Update', 'data' => $usuario]);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 }

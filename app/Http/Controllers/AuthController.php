@@ -30,6 +30,8 @@ class AuthController extends Controller
 
         // Obtiene el rol del usuario
         $role = $user->role;
+        $seccion = $user->name;
+        $id = $user->id;
 
 
         $cookie = cookie('jwt', $token, 60);
@@ -37,7 +39,9 @@ class AuthController extends Controller
         // Devuelve una respuesta JSON que incluye el token y la cookie
         return response()->json([
             'access_token' => $token,
+            'seccion' => $seccion,
             'role' => $role,
+            'id' => $id,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ])->withCookie($cookie);

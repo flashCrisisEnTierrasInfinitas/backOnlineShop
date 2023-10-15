@@ -59,9 +59,17 @@ class VentasController extends Controller
         }
     }
 
-    public function show($id)
+    public function show($user)
     {
-        //
+        try {
+            $data = DB::table('ventas')
+                ->select('id', 'user_venta', 'user_compra', 'tipo_servicio', 'Total_Pago', 'status_venta', 'created_at')
+                ->where('user_compra', '=', $user)
+                ->get();
+            return response()->json($data);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 
 

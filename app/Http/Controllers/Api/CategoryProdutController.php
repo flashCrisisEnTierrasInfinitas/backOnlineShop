@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryProductRequest;
 use App\Models\categoryProduct;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 
 class CategoryProdutController extends Controller
@@ -64,15 +65,15 @@ class CategoryProdutController extends Controller
         return response()->json(['message' => 'Actually']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $product = categoryProduct::destroy($id);
-        return response()->json(['message' => 'Delete', 'data' => $product]);
+        try {
+            $category = categoryProduct::find($id);
+            $category->state = $request->state;
+            $category->save();
+            return response()->json(['message' => 'Update', 'data' => $category]);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 }

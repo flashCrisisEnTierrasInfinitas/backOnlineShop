@@ -13,13 +13,9 @@ class Usuario extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
-    protected $fillable = ['name', 'last_name', 'email', 'password', 'role', 'status'];
+    protected $fillable = ['name', 'last_name', 'email', 'password', 'role', 'status','img','telefono','direccion'];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
+  
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
