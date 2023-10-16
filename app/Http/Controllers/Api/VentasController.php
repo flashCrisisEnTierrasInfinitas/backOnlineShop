@@ -14,8 +14,15 @@ class VentasController extends Controller
 {
     public function index()
     {
-        $Ventas = ModelVentas::all();
-        return response()->json($Ventas);
+        try {
+            $data = DB::table('ventas')
+                ->select('*')
+                ->orderBy('id', 'desc')
+                ->get();
+            return response()->json($data);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
     public function store(StoreVentasRequest $request)
     {
@@ -52,7 +59,7 @@ class VentasController extends Controller
             $ventas->save();
 
             DB::commit();
-            return response()->json(['message' => 'success']);
+            return response()->json(['message' => 'success','data' => $ventas]);
         } catch (\Throwable $th) {
             DB::rollBack();
             return $th->getMessage();
@@ -65,6 +72,7 @@ class VentasController extends Controller
             $data = DB::table('ventas')
                 ->select('id', 'user_venta', 'user_compra', 'tipo_servicio', 'Total_Pago', 'status_venta', 'created_at')
                 ->where('user_compra', '=', $user)
+                ->orderBy('id', 'desc')
                 ->get();
             return response()->json($data);
         } catch (\Throwable $th) {
@@ -86,8 +94,9 @@ class VentasController extends Controller
     }
 
 
-    public function destroy($id)
+    public function listOneVenta($id)
     {
-        //
+        $ventas = ModelVentas::find($id);
+        return response()->json($ventas);
     }
 }

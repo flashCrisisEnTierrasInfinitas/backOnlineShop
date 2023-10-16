@@ -7,6 +7,7 @@ use App\Http\Requests\StoreCategoryProductRequest;
 use App\Models\categoryProduct;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryProdutController extends Controller
 {
@@ -72,6 +73,19 @@ class CategoryProdutController extends Controller
             $category->state = $request->state;
             $category->save();
             return response()->json(['message' => 'Update', 'data' => $category]);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+    public function listActiveCategory()
+    {
+        try {
+            $data = DB::table('category_products')
+                ->select('*')
+                ->where('state', '=', '0')
+                ->orderBy('id', 'desc')
+                ->get();
+            return response()->json($data);
         } catch (\Throwable $th) {
             return $th->getMessage();
         }

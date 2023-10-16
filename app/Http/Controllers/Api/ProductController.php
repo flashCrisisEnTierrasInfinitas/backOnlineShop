@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 
 //! CONTROLADOR DE LOS PRODUCTOS
 
@@ -17,16 +17,21 @@ class ProductController extends Controller
     public function index()
     {
         try {
-            $products = Product::all();
-            return response()->json($products);
-        } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
+            $data = DB::table('products')
+                ->select('products.id','id_category','nombrePro','codigoPro','descripPro','precioPro','stockPro','products.img','status','quantity'
+                ,'oferta','products.created_at','name','color')
+                ->join('category_products', 'category_products.id', '=', 'id_category')
+                ->orderBy('products.id', 'desc')
+                ->get();
+            return response()->json($data);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
         }
     }
     //? INSERTA LOS PRODUCTOS
     public function store(StoreProductRequest $request)
     {
-        $products = new Product($request->validated()); 
+        $products = new Product($request->validated());
 
         $image = $request->file('img');
         if ($image) {
@@ -59,11 +64,12 @@ class ProductController extends Controller
         $product->precioPro = $request->precioPro;
         $product->stockPro = $request->stockPro;
         $product->status = $request->status;
+        $product->oferta = $request->oferta;
         $product->save();
         return response()->json(['message' => 'Update', 'data' => $product]);
     }
     //! ELIMINA LOS PRODUCTOS
-   
+
     public function destroy(Request $request, $id)
     {
         try {
@@ -71,6 +77,45 @@ class ProductController extends Controller
             $product->status = $request->status;
             $product->save();
             return response()->json(['message' => 'Update', 'data' => $product]);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+    public function listActiveProducts()
+    {
+        try {
+            $data = DB::table('products')
+                ->select('*')
+                ->where('status', '=', '0')
+                ->orderBy('id', 'desc')
+                ->get();
+            return response()->json($data);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+    public function producOferta()
+    {
+        try {
+            $data = DB::table('products')
+                ->select('*')
+                ->where('status', '=', '0')
+                ->where('oferta', '=', '1')
+                ->get();
+            return response()->json($data);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+
+    public function listCategoriPro($id)
+    {
+        try {
+            $data = DB::table('products')
+                ->select('*')
+                ->where('id_category', '=', $id)
+                ->get();
+            return response()->json($data);
         } catch (\Throwable $th) {
             return $th->getMessage();
         }

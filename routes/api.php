@@ -71,12 +71,17 @@ Route::middleware('auth:api')->group(function () {
     Route::controller(VentasController::class)->group(function () {
         Route::get('/ventas', 'index');
         Route::post('/ventas', 'store');
+        Route::get('/listOneVenta/{id}', 'listOneVenta');
     });
 });
 
 Route::get('/product', 'App\Http\Controllers\Api\ProductController@index');
+Route::get('/listActiveProduct', 'App\Http\Controllers\Api\ProductController@listActiveProducts');
+Route::get('/producOferta', 'App\Http\Controllers\Api\ProductController@producOferta');
 Route::get('/product/{id}', 'App\Http\Controllers\Api\ProductController@show');
+Route::get('/listCategoriPro/{id}', 'App\Http\Controllers\Api\ProductController@listCategoriPro');
 Route::get('/categoryProd', 'App\Http\Controllers\Api\CategoryProdutController@index');
+Route::get('/listActiveCategory', 'App\Http\Controllers\Api\CategoryProdutController@listActiveCategory');
 Route::get('/categoryProd/{id}', 'App\Http\Controllers\Api\CategoryProdutController@show');
 //TOCA PROTEGERLAS
 Route::get('/ventasProductos/{id}', 'App\Http\Controllers\Api\VentaProductosController@index');
