@@ -59,7 +59,7 @@ class VentasController extends Controller
             $ventas->save();
 
             DB::commit();
-            return response()->json(['message' => 'success','data' => $ventas]);
+            return response()->json(['message' => 'success', 'data' => $ventas]);
         } catch (\Throwable $th) {
             DB::rollBack();
             return $th->getMessage();
@@ -98,5 +98,18 @@ class VentasController extends Controller
     {
         $ventas = ModelVentas::find($id);
         return response()->json($ventas);
+    }
+    public function listAllventasStatus($id)
+    {
+        try {
+            $data = DB::table('ventas')
+                ->select('*')
+                ->where('status_venta', '=', $id)
+                ->orderBy('id', 'desc')
+                ->get();
+            return response()->json($data);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 }

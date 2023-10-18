@@ -72,6 +72,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/ventas', 'index');
         Route::post('/ventas', 'store');
         Route::get('/listOneVenta/{id}', 'listOneVenta');
+        Route::get('/listAllventasStatus/{id}', 'listAllventasStatus');
     });
 });
 
@@ -88,3 +89,4 @@ Route::get('/ventasProductos/{id}', 'App\Http\Controllers\Api\VentaProductosCont
 Route::post('/ventasProductos/{user}', 'App\Http\Controllers\Api\VentaProductosController@show');
 Route::put('/ventas/{id}', 'App\Http\Controllers\Api\VentasController@update');
 Route::get('/ventas/{user}', 'App\Http\Controllers\Api\VentasController@show');
+
