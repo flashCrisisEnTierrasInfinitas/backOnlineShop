@@ -114,6 +114,7 @@ class ProductController extends Controller
             $data = DB::table('products')
                 ->select('*')
                 ->where('id_category', '=', $id)
+                ->where('status', '=', '0')
                 ->get();
             return response()->json($data);
         } catch (\Throwable $th) {
