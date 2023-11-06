@@ -24,6 +24,7 @@ class StoreMyDalyRequest extends FormRequest
             'TypeService' => 'required',
             'Codigo_ven' => 'required',
             'Codigo_pro' => 'required',
+            'ico' => 'required',
             'img' => 'nullable',
         ];
     }

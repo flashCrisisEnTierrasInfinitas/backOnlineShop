@@ -80,11 +80,14 @@ class CategoryProdutController extends Controller
     public function listActiveCategory()
     {
         try {
-            $data = DB::table('category_products')
-                ->select('*')
-                ->where('state', '=', '0')
-                ->orderBy('id', 'desc')
-                ->get();
+            $data = categoryProduct::where('state', 0)
+            ->whereExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('products')
+                    ->whereColumn('category_products.id', 'products.id_category');
+            })
+            ->get();
+        
             return response()->json($data);
         } catch (\Throwable $th) {
             return $th->getMessage();

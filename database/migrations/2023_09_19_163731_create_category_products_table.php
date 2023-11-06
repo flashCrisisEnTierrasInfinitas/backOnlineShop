@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('state');
             $table->string('color');
             $table->string('img');
+            $table->string('ico');
             $table->timestamps();
         });
     }
