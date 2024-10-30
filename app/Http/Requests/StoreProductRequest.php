@@ -20,6 +20,7 @@ class StoreProductRequest extends FormRequest
             'descripPro'=>'required',
             'precioPro'=>'required',
             'stockPro'=>'required',
+            'categorias'=>'required',
             'img'=>'nullable|mimes:png,jpeg,jpg,jfif,webp',
         ];
     }
