@@ -57,6 +57,11 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
+        // Update other fields
         $product->id_category = $request->id_category;
         $product->nombrePro = $request->nombrePro;
         $product->codigoPro = $request->codigoPro;
@@ -65,9 +70,26 @@ class ProductController extends Controller
         $product->stockPro = $request->stockPro;
         $product->status = $request->status;
         $product->oferta = $request->oferta;
+
+        // Check if there's a new image file in the request
+        if ($request->hasFile('img')) {
+            $image = $request->file('img');
+            
+            // Generate a new filename
+            $nombreImagen = time() . '_' . $request->nombrePro . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('img/product'), $nombreImagen);
+
+            // Create URL and assign it to the product
+            $url = asset('img/product/' . $nombreImagen);
+            $product->img = $url;
+        }
+
+        // Save the updated product
         $product->save();
+
         return response()->json(['message' => 'Update', 'data' => $product]);
     }
+
     //! ELIMINA LOS PRODUCTOS
 
     public function destroy(Request $request, $id)
