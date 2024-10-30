@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class CategoryProdutController extends Controller
 {
+    //ajustes en los controladores.
     public function index()
     {
         try {
